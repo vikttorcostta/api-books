@@ -16,6 +16,7 @@ class Book extends Model
         'status' => StatusBook::class,
     ];
     protected $appends = ['cover_url'];
+
     public function getCoverUrlAttribute(){
         return $this->cover ? asset('storage/' . $this->cover) : null;
     }
@@ -26,6 +27,10 @@ class Book extends Model
 
     public function categories(){
         return $this->belongsToMany(Category::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
     }
 
 }
