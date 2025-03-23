@@ -11,7 +11,7 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['rating', 'review'];
+    protected $fillable = ['rating', 'review', 'user_id', 'book_id'];
 
     protected $casts = [
         'rating' => Rate::class,
