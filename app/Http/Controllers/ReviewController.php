@@ -15,7 +15,12 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return response()->json(Review::all());
+
+        $reviews = Review::all();
+        if ($reviews->isEmpty()) {
+            return response()->json(["message" => "Não foram encontradas avaliações"], 204);
+        }
+        return response()->json($reviews,200);
     }
 
     /**
@@ -46,7 +51,7 @@ class ReviewController extends Controller
         if (is_null($review)) {
             return response()->json(["message" => "Avaliação não encontrada"], 404);
         }
-        return response()->json($review, 201);
+        return response()->json($review, 200);
     }
 
     /**
@@ -61,7 +66,7 @@ class ReviewController extends Controller
             ]);
             $review = Review::update($validatedData);
             DB::commit();
-            return response()->json($review, 200);
+            return response()->json($review, 201);
         } catch (\Exception $exception) {
             DB::rollBack();
             return response()->json('Erro ao atualizar avaliação', $exception->getMessage());

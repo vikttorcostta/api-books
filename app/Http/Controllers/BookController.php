@@ -15,7 +15,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        return response()->json(Book::all());
+        $books = Book::all();
+        if ($books->isEmpty()) {
+            return response()->json(["message" => "Nenhum registro encontrado"], 204);
+        }
+        return response()->json($books, 200);
     }
 
     /**
@@ -52,7 +56,7 @@ class BookController extends Controller
             return response()->json(["message" => "Livro não encotrado"], 404);
         }
 
-        return response()->json($book,201);
+        return response()->json($book,200);
     }
 
     /**

@@ -14,8 +14,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::all());
+        $users = User::all();
+
+        if ($users->isEmpty()) {
+            return response()->json(["message "=> "Nenhum usuário encontrado"], 204);
+        }
+
+        return response()->json($users, 200);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +59,7 @@ class UserController extends Controller
         if (is_null($user)) {
             return response()->json(["message" => "Usuário não encontrado"], 404);
         }
-        return response()->json($user, 201);
+        return response()->json($user, 200);
     }
 
     /**
@@ -72,7 +79,7 @@ class UserController extends Controller
             ]);
             $user->update($validatedData);
             DB::commit();
-            return response()->json($user, 200);
+            return response()->json($user, 201);
         } catch (\Exception $exception){
             DB::rollBack();
             return response()->json(['Erro ao atualizar usuário' => $exception->getMessage()], 500);
