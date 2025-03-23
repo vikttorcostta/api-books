@@ -32,7 +32,9 @@ class ReviewController extends Controller
             DB::beginTransaction();
             $validatedData = $request->validate([
                 'rating' => ['nullable', new Enum(Rate::class)],
-                'review' => 'nullable'
+                'review' => 'nullable',
+                'user_id' => 'required|exists:users,id',
+                'book_id' => 'required|exists:books,id'
             ]);
             $review = Review::create($validatedData);
             DB::commit();
@@ -63,7 +65,9 @@ class ReviewController extends Controller
         try {
             $validatedData = $request->validate([
                 'rating' => ['nullable', new Enum(Rate::class)],
-                'review' => 'nullable'
+                'review' => 'nullable',
+                'user_id' => 'required|exists:users,id',
+                'book_id' => 'required|exists:books,id'
             ]);
             $review = Review::update($validatedData);
             DB::commit();
