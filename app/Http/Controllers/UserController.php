@@ -38,7 +38,7 @@ class UserController extends Controller
 
         }catch (\Exception $exception){
             DB::rollBack();
-            return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['Erro ao cadastrar usuário' => $exception->getMessage()], 500);
         }
     }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (is_null($user)) {
-            return response()->json('Usuário não encontrado.', 404);
+            return response()->json(["message" => "Usuário não encontrado"], 404);
         }
         return response()->json($user, 201);
     }
@@ -75,7 +75,7 @@ class UserController extends Controller
             return response()->json($user, 200);
         } catch (\Exception $exception){
             DB::rollBack();
-            return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['Erro ao atualizar usuário' => $exception->getMessage()], 500);
         }
     }
 
@@ -86,10 +86,10 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (is_null($user)) {
-            return response()->json('Usuário não encontrado.', 404);
+            return response()->json(["mesage" => "Usuário não encontrado"], 404);
         }
         $user->delete();
 
-        return response()->json('Usuário excluído com sucesso!', 204);
+        return response()->json(["message" => "Usuário exluído com sucesso"], 201);
     }
 }
