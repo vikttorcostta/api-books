@@ -1,0 +1,71 @@
+@startuml
+entity "Users" {
+    *id : UUID
+    --
+    *name : string
+    *email : string
+    password : string
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "Books" {
+    *id : UUID
+    --
+    *title : string
+    *author : string
+    publisher : string
+    publication_year : integer
+    isbn : string
+    status : enum("lido", "não lido", "em andamento")
+    created_at : timestamp
+    updated_at : timestamp
+    user_id : UUID
+}
+
+entity "Categories" {
+    *id : UUID
+    --
+    *name : string
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "BookCategories" {
+    *book_id : UUID
+    *category_id : UUID
+}
+
+entity "Notes" {
+    *id : UUID
+    --
+    content : text
+    created_at : timestamp
+    updated_at : timestamp
+    book_id : UUID
+}
+
+entity "Reviews" {
+    *id : UUID
+    --
+    rating : integer
+    review : text
+    created_at : timestamp
+    updated_at : timestamp
+    book_id : UUID
+}
+
+entity "Favorites" {
+    *id : UUID
+    --
+    user_id : UUID
+    book_id : UUID
+}
+
+Users ||--o{ Books : "1:N"
+Books ||--o{ Notes : "1:N"
+Books ||--o{ Reviews : "1:N"
+Books ||--o{ BookCategories : "1:N"
+Categories ||--o{ BookCategories : "1:N"
+Users ||--o{ Favorites : "1:N"
+@enduml

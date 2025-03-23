@@ -1,0 +1,79 @@
+@startuml
+class User {
+    +id: UUID
+    +name: string
+    +email: string
+    -password: string
+    +created_at: timestamp
+    +updated_at: timestamp
+    --
+    +register()
+    +authenticate()
+}
+
+class Book {
+    +id: UUID
+    +title: string
+    +author: string
+    +publisher: string
+    +publication_year: integer
+    +isbn: string
+    +status: enum("lido", "não lido", "em andamento")
+    +created_at: timestamp
+    +updated_at: timestamp
+    --
+    +addBook()
+    +updateBook()
+    +deleteBook()
+    +getBooks()
+}
+
+class Category {
+    +id: UUID
+    +name: string
+    +created_at: timestamp
+    +updated_at: timestamp
+    --
+    +createCategory()
+    +updateCategory()
+    +deleteCategory()
+}
+
+class Note {
+    +id: UUID
+    +content: text
+    +created_at: timestamp
+    +updated_at: timestamp
+    --
+    +addNote()
+    +editNote()
+    +deleteNote()
+}
+
+class Review {
+    +id: UUID
+    +rating: integer
+    +review: text
+    +created_at: timestamp
+    +updated_at: timestamp
+    --
+    +addReview()
+    +editReview()
+    +deleteReview()
+}
+
+class Favorite {
+    +id: UUID
+    +user_id: UUID
+    +book_id: UUID
+    --
+    +addFavorite()
+    +removeFavorite()
+}
+
+User "1" -- "N" Book
+Book "1" -- "N" Note
+Book "1" -- "N" Review
+Book "N" -- "N" Category
+User "1" -- "N" Favorite
+@enduml
