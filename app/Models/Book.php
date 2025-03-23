@@ -18,7 +18,7 @@ class Book extends Model
     protected $appends = ['cover_url'];
 
     public function getCoverUrlAttribute(){
-        return $this->cover ? asset('storage/' . $this->cover) : null;
+        return $this->cover ? asset('storage/public/cover' . $this->cover) : null;
     }
 
     public function users(){
