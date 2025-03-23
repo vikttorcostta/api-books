@@ -26,6 +26,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
             $validationData = $request->validate([
                 'name' => 'required|max:255',
             ]);
@@ -36,7 +37,7 @@ class CategoryController extends Controller
 
         }catch (\Exception $exception){
             DB::rollBack();
-            return response()->json($exception->getMessage(), 500);
+            return response()->json(['Erro ao cadastrar categoria', $exception->getMessage()], 500);
         }
     }
 
@@ -58,8 +59,8 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $category = Category::find($id);
 
+            $category = Category::find($id);
             if (is_null($category)) {
                 return response()->json(["message" => "Categoria não encontrada"], 404);
             }
@@ -85,9 +86,9 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (is_null($category)) {
-            return response()->json(["Message" => "Categoria não encontrada"], 404);
+            return response()->json(["message" => "Categoria não encontrada"], 404);
         }
         $category->delete();
-        return response()->json(["Message" => "Categoria excluída com sucesso"], 201);
+        return response()->json(["message" => "Categoria excluída com sucesso"], 201);
     }
 }

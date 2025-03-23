@@ -10,7 +10,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'cover', 'author', 'publisher', 'publication_year', 'isbn', 'status'];
+    protected $fillable = ['title', 'cover', 'author', 'publisher', 'publication_year', 'isbn', 'status' ,'user_id', 'category_id'];
 
     protected $casts = [
         'status' => StatusBook::class,

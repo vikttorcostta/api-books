@@ -29,6 +29,7 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
                 'rating' => ['nullable', new Enum(Rate::class)],
                 'review' => 'nullable'

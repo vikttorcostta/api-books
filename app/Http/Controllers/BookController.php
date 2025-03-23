@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusBook;
 use App\Models\Book;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Enum;
@@ -28,6 +30,8 @@ class BookController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
+
             $validateData = $request->validate([
                 'title' => 'required',
                 'cover' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -36,15 +40,20 @@ class BookController extends Controller
                 'publication_year' => 'required|numeric',
                 'isbn' => 'nullable',
                 'status' => ['required', new Enum(StatusBook::class)],
+                'user_id' => 'required|exists:users,id',
+                'category_id' => 'required|exists:categories,id'
             ]);
+
             $book = Book::create($validateData);
+
             DB::commit();
             return response()->json($book, 201);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
-            return response()->json(['Erro ao salvar livro:' => $exception->getMessage()], 500);
+            return response()->json(['error' => 'Erro ao salvar livro: ' . $exception->getMessage()], 500);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -65,6 +74,7 @@ class BookController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+
             $validateData = $request->validate([
                 'title' => 'required',
                 'cover' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -73,6 +83,8 @@ class BookController extends Controller
                 'publication_year' => 'required|numeric',
                 'isbn' => 'nullable',
                 'status' => ['required', new Enum(StatusBook::class)],
+                'user_id' => 'required|exists:users,id',
+                'category_id' => 'required|exists:categories,id'
             ]);
             $book = Book::create($validateData);
             DB::commit();
