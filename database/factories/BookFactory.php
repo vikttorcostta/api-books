@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Enums\StatusBook;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Validation\Rules\Enum;
 
@@ -25,9 +27,9 @@ class BookFactory extends Factory
             'publisher' => $this->faker->company(),
             'publication_year' => $this->faker->year(),
             'isbn' => $this->faker->isbn13(),
-            'status' => new Enum(StatusBook::class),
-            'user_id' => $this->faker->randomElement([1,2,3,4,5,6,7,8,9]),
-            'category_id' => $this->faker->randomElement([1,2,3,4,5,6,7,8,9]),
+            'status' => StatusBook::UNREAD,
+            'user_id' => User::factory()->create(),
+            'category_id' => Category::factory()->create()
         ];
     }
 }

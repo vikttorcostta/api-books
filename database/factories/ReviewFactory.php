@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +21,8 @@ class ReviewFactory extends Factory
         return [
             'rating' => $this->faker->numberBetween(1,5),
             'review' => $this->faker->paragraph(),
-            'user_id' => $this->faker->randomElement([1,2,3,4,5,6,7,8,9]),
-            'book_id' => $this->faker->randomElement([1,2,3,4,5,6,7,8,9]),
+            'user_id' => User::factory()->create(),
+            'book_id' => Book::factory()->create(),
         ];
     }
 }
