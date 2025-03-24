@@ -1,0 +1,39 @@
+@startuml casos_de_uso
+actor User
+
+left to right direction
+
+rectangle "Cadastro e Autenticação de Usuários" {
+  User --> (Cadastrar usuário)
+  User --> (Login)
+  User --> (Logout)
+  User --> (Recuperar senha)
+}
+
+rectangle "Gerenciamento de Livros" {
+  User --> (Cadastrar livro)
+  User --> (Editar livro)
+  User --> (Remover livro)
+  User --> (Listar livros)
+  User --> (Visualizar detalhes do livro)
+}
+
+rectangle "Gerenciamento de Categorias" {
+  User --> (Cadastrar categoria)
+  User --> (Editar categoria)
+  User --> (Remover categoria)
+  User --> (Listar categorias)
+}
+
+rectangle "Avaliações" {
+  User --> (Avaliar livro)
+  User --> (Editar avaliação)
+  User --> (Excluir avaliação)
+}
+
+User --> (Cadastrar livro) : "Apenas se autenticado"
+User --> (Avaliar livro) : "Apenas uma vez por livro"
+User --> (Editar avaliação) : "Somente sua própria avaliação"
+User --> (Excluir avaliação) : "Somente sua própria avaliação"
+
+@enduml
