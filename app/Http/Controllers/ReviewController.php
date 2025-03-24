@@ -63,19 +63,30 @@ class ReviewController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+            DB::beginTransaction();
+
+            $review = Review::find($id);
+            if (is_null($review)) {
+                return response()->json(["message" => "Nenhuma avaliação encontrada"], 404);
+            }
+
             $validatedData = $request->validate([
                 'rating' => ['nullable', new Enum(Rate::class)],
                 'review' => 'nullable',
                 'user_id' => 'required|exists:users,id',
                 'book_id' => 'required|exists:books,id'
             ]);
-            $review = Review::update($validatedData);
+
+            $review->update($validatedData);
+
             DB::commit();
-            return response()->json($review, 201);
+
+            return response()->json($review, 200);
         } catch (\Exception $exception) {
             DB::rollBack();
-            return response()->json('Erro ao atualizar avaliação', $exception->getMessage());
+            return response()->json(['Erro ao atualizar avaliação' => $exception->getMessage()], 500);
         }
+
     }
 
     /**
