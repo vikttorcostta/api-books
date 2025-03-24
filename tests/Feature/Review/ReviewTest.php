@@ -58,6 +58,7 @@ test('Editar uma avalição', function () {
     ]);
 });
 
+// Delete
 test('Excluir uma avaliação', function () {
    $response = deleteJson('/api/reviews/' . $this->review->id);
    $response->assertStatus(201);
