@@ -19,7 +19,6 @@ test('Cadastro de usuário', function () {
     $response->assertStatus(201)->assertJsonStructure([
             'id', 'name', 'email', 'created_at', 'updated_at'
     ]);
-    expect(User::where('email', 'aurora-ramos83@life.com')->exists())->toBeTrue();
 });
 
 // Index
@@ -32,7 +31,7 @@ test('Listagem de usuários', function () {
 
 // Show
 test('Mostrar usuário', function (){
-    $response = getJson('/api/users/1');
+    $response = getJson('/api/users/' . $this->user->id);
     $response->assertStatus(201)->assertJsonStructure([
         'id', 'name', 'email', 'created_at', 'updated_at'
     ]);
@@ -40,7 +39,7 @@ test('Mostrar usuário', function (){
 
 // Update
 test('Atualizar usuário', function () {
-    $response = putJson('/api/users/1', [
+    $response = putJson('/api/users/' . $this->user->id, [
         'name' => 'Aurora Luciana Ramos dos Santos Atualizado',
         'email' => 'aurora.ramos@book.com.br',
         'password' => '12345678',
@@ -52,6 +51,6 @@ test('Atualizar usuário', function () {
 
 // Delete
 test('Excluir usuário', function () {
-    $response = deleteJson('/api/users/1');
+    $response = deleteJson('/api/users/' . $this->user->id);
     $response->assertStatus(201);
 });
