@@ -60,7 +60,7 @@ class UserController extends Controller
         if (is_null($user)) {
             return response()->json(["message" => "Usuário não encontrado"], 404);
         }
-        return response()->json($user, 200);
+        return response()->json($user, 201);
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
             ]);
             $user->update($validatedData);
             DB::commit();
-            return response()->json($user, 201);
+            return response()->json($user, 200);
         } catch (\Exception $exception){
             DB::rollBack();
             return response()->json(['Erro ao atualizar usuário' => $exception->getMessage()], 500);
