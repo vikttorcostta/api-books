@@ -1,0 +1,76 @@
+@startuml diagrama_de_classes
+
+class User {
+    -name: string
+    -email: string
+    -password: string
+    +index(): void
+    +store(Request $request): Json
+    +show(string $id): Json
+    +update(Request $request, string $id): Json
+    +destroy(string $id): Json
+}
+
+class Category {
+    -name: string
+    +index(): void
+    +store(Request $request): Json
+    +show(string $id): Json
+    +update(Request $request, string $id): Json
+    +destroy(string $id): Json
+}
+
+class Book {
+    -user_id: int
+    -category_id: int
+    -title: string
+    -cover: string
+    -author: string
+    -publisher: string
+    -publication_year: int
+    -isbn: string
+    -status: string
+    +index(): void
+    +store(Request $request): Json
+    +show(string $id): Json
+    +update(Request $request, string $id): Json
+    +destroy(string $id): Json
+}
+
+class Review {
+    -book_id: int
+    -user_id: int
+    -rating: int
+    -review: string
+    +index(): void
+    +store(Request $request): Json
+    +show(string $id): Json
+    +update(Request $request, string $id): Json
+    +destroy(string $id): Json
+}
+
+
+enum StatusBook {
+    READ : "read"
+    UNREAD : "unread"
+    IN_PROGRESS : "in_progress"
+}
+
+StatusBook : +label() : string
+
+enum Rate {
+    ONE : 1
+    TWO : 2
+    THREE : 3
+    FOUR : 4
+    FIVE : 5
+}
+
+Rate : +label() : string
+
+User "1" -- "0..*" Review : Writes
+Book "1" -- "0..*" Review : Has
+User "1" -- "0..*" Book : Owns
+Category "1" -- "0..*" Book : Contains
+
+@enduml

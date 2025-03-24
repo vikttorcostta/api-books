@@ -1,0 +1,50 @@
+@startuml diagrama_banco_de_dados
+
+entity "User" {
+  +id: INT <<PK>>
+  +name: VARCHAR
+  +email: VARCHAR
+  +password: VARCHAR
+  +created_at: DATETIME
+  +updated_at: DATETIME
+}
+
+entity "Category" {
+  +id: INT <<PK>>
+  +name: VARCHAR
+  +created_at: DATETIME
+  +updated_at: DATETIME
+}
+
+entity "Book" {
+  +id: INT <<PK>>
+  +user_id: INT <<FK>>
+  +category_id: INT <<FK>>
+  +title: VARCHAR
+  +cover: VARCHAR
+  +author: VARCHAR
+  +publisher: VARCHAR
+  +publication_year: INT
+  +isbn: VARCHAR
+  +status: VARCHAR
+  +created_at: DATETIME
+  +updated_at: DATETIME
+}
+
+entity "Review" {
+  +id: INT <<PK>>
+  +book_id: INT <<FK>>
+  +user_id: INT <<FK>>
+  +rating: INT
+  +review: TEXT
+  +created_at: DATETIME
+  +updated_at: DATETIME
+}
+
+' Relationships
+User ||--o{ Book : owns
+Category ||--o{ Book : contains
+User ||--o{ Review : writes
+Book ||--o{ Review : has
+
+@enduml
